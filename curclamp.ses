@@ -1,0 +1,32 @@
+objectvar save_window_, rvp_
+objectvar scene_vector_[4]
+objectvar ocbox_, ocbox_list_, scene_, scene_list_
+{ocbox_list_ = new List()  scene_list_ = new List()}
+
+//Begin PointProcessGroupManager
+{
+load_file("pointgrp.hoc")
+}
+{
+ocbox_ = new PointProcessGroupManager(0)
+}
+{object_push(ocbox_)}
+{
+ms = new MechanismStandard("IClamp")
+ms.set("del", 100, 0)
+ms.set("dur", 1500, 0)
+ms.set("amp", 0.0595, 0)
+mnews("IClamp", ms)
+select(0)
+execute("soma ocbox_.move(0.5)")
+}
+{object_pop() doNotify()}
+{
+ocbox_ = ocbox_.v1
+ocbox_.map("PointProcessGroupManager", 25, 532, 556.8, 295.68)
+}
+objref ocbox_
+//End PointProcessGroupManager
+
+objectvar scene_vector_[1]
+{doNotify()}

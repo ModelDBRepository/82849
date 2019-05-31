@@ -1,0 +1,47 @@
+// fig2A.hoc
+load_file("curclamp.ses") //IClamp[0]
+load_file("cvode.ses")  // use variable step
+
+objref vbox
+vbox = new VBox()
+vbox.intercept(1)
+
+objref vvec, tvec
+vvec = new Vector()
+tvec = new Vector()
+vvec.record(&soma.v(0.5))
+tvec.record(&t)
+
+objref g[4]
+for i=0,3 { 
+	g[i] = new Graph()
+}
+
+g[0].exec_menu("Keep Lines")
+for i=1,3 {
+	IClamp[0].amp=i*0.020 - 0.005 // slight correction to get fig
+	init()
+	run()
+	vvec.line(g[0],tvec)
+}
+
+IClamp[0].amp=0.07
+init()
+run()
+vvec.line(g[1],tvec)
+
+IClamp[0].amp=0.096
+init()
+run()
+vvec.line(g[2],tvec)
+
+IClamp[0].amp=0.12
+init()
+run()
+vvec.line(g[3],tvec)
+
+for i=0,3 { g[i].exec_menu("View = plot") }
+
+vbox.intercept(0)
+vbox.map()
+

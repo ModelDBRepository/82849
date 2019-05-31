@@ -1,0 +1,170 @@
+/* 4-compartment model of a deep layer PFC pyramidal cell */
+/* from Durstewitz et al. (2000), J.Neurophysiol. 83: 1733-50 */
+
+
+load_proc("nrnmainmenu")
+
+
+
+create 	soma,\
+	dend[3]  /*dend[0]=basal, dend[1]=proximal, dend[2]=distal*/
+
+connect dend[0](0), soma(0)
+connect dend[1](0), soma(1)
+connect dend[2](0), dend[1](1)
+
+
+
+soma{
+	nseg=1
+	L=86.3
+	diam=6.14  /* L and diam chosen to match surface area and internal*/
+		   /*  resistance with a sphere of diam 23 microns */
+
+
+
+
+	insert Naf
+	gnafbar_Naf = 0.086
+
+	insert Nap
+	gnapbar_Nap = 0.0022
+
+	insert Hva
+	ghvabar_Hva = 0.00034
+
+	insert kdr
+	gkdrbar_kdr = 0.0338
+
+	insert IKs
+	gKsbar_IKs = 0.00014
+
+	insert iC
+	gkcbar_iC = 0.0022
+
+	insert cadyn
+	CAF_cadyn=385.948e-9
+	tca_cadyn =250
+}
+
+dend[0]{
+	nseg=1
+	L=150.0
+	diam=16.0
+
+	insert Naf
+	gnafbar_Naf = 0.028
+
+	insert Nap
+	gnapbar_Nap = 0.001
+
+	insert Hva
+	ghvabar_Hva = 0.0007
+
+	insert kdr
+	gkdrbar_kdr = 0.0092
+
+	insert IKs
+	gKsbar_IKs = 0.00024
+
+	insert iC
+	gkcbar_iC = 0.0038
+
+	insert cadyn
+	CAF_cadyn=964.87e-9
+	tca_cadyn =120
+
+}
+
+dend[1]{
+	nseg=1
+	L=400.0
+	diam=2.6
+
+
+	insert Naf
+	gnafbar_Naf = 0.028
+
+	insert Nap
+	gnapbar_Nap = 0.001
+
+	insert Hva
+	ghvabar_Hva = 0.0007
+
+	insert kdr
+	gkdrbar_kdr = 0.0092
+
+	insert IKs
+	gKsbar_IKs = 0.00024
+
+	insert iC
+	gkcbar_iC = 0.0038
+
+	insert cadyn
+	CAF_cadyn=964.87e-9
+	tca_cadyn =120
+
+
+}
+
+dend[2]{
+	nseg=1
+	L=400
+	diam=2.6
+
+
+	insert Naf
+	gnafbar_Naf = 0.028
+
+	insert Hva
+	ghvabar_Hva = 0.00034
+
+	insert kdr
+	gkdrbar_kdr = 0.0092
+
+	insert IKs
+	gKsbar_IKs = 0.00024
+
+	insert iC
+	gkcbar_iC = 0.0022
+
+	insert cadyn
+	CAF_cadyn=964.87e-9
+	tca_cadyn =80
+
+}
+	
+
+forall{
+	insert kdyn
+	insert pas
+      	cm = 2.3         /* microF/cm2 */
+	g_pas = 6.39e-5  /* mho/cm2 */
+        e_pas = -70
+	Ra = 150         /* ohm-cm */
+}
+
+
+soma {
+	g_pas = 3.33e-5
+	cm = 1.2
+
+}
+
+
+cao0_ca_ion = 2  /* mM */
+cai0_ca_ion = 50e-6   /* mM */
+ko0_k_ion = 3.82  /* mM */
+ki0_k_ion = 140   /* mM */
+celcius   = 23
+
+tstop=1700
+
+access soma
+
+nrnmainmenu()
+nrncontrolmenu()
+newPlotV()
+
+
+

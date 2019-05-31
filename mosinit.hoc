@@ -1,0 +1,8 @@
+load_file("nrngui.hoc")
+load_file("pfc_pc.hoc")
+
+xpanel("Durstewitz et al. 2000")
+xbutton("Figure 2A (right hand side)","load_file(\"fig2A.hoc\")")
+xlabel("Press the above button to create")
+xlabel("the right hand column of fig 2A")
+xpanel()
